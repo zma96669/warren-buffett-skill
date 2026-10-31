@@ -29,6 +29,14 @@
 
 ## 发布验证
 
-本地检查完成；公开仓库、远端内容一致性和 GitHub 端到端安装，在首次发布后补记实际结果，未验证前不宣称成功。
+公开仓库：[zma96669/warren-buffett-skill](https://github.com/zma96669/warren-buffett-skill)。2026-10-31 首次发布后实际检查：
+
+- 匿名 GitHub API 返回 HTTP 200，仓库 `private=false`。本地与远端 main 在发布内容提交 `0e5b884c7212045181c850b45c764c19542d7289` 一致；后续仅补记本报告。
+- `npx --yes skills add zma96669/warren-buffett-skill --list` 从 GitHub 克隆成功，发现且仅发现 `warren-buffett-perspective`。
+- 在隔离临时项目运行 `npx --yes skills add zma96669/warren-buffett-skill --skill warren-buffett-perspective -a codex --copy -y`，返回 `Installed 1 skill`。这不是全局安装，没有覆盖原有技能。
+- 下载后的 8 个技能文件全部齐全；Windows Git 将 LF 转为 CRLF，标准化换行后逐文件内容完全一致。首次逐字节比较因换行不同未通过，未将其冒充原样相等。
+- 匿名 Contents API 解码后的入口 SHA256 与本地一致：`89360c5d898a28dfcd1226dff21cecea874e1b384ccda08c81b5c097391360e4`。
+- 单独请求 raw.githubusercontent.com 一次超时，改用匿名 GitHub Contents API 核对；Git 克隆及真实安装均已成功，但这不保证任何网络环境永久可下载。
+- Markdown 本地链接、自包含、占位符及明显凭据/本机路径扫描通过；`git diff --cached --check` 通过。静态模式扫描不是完整安全审计。
 
 不修改代理设置，不使用离线分发包，不上传 token、私钥、本机用户路径或临时测试目录。
